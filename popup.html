@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  /* Reduced width to 260px for compact look */
+  body { width: 260px; background: #050505; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; user-select: none; border: 1px solid #222; }
+  
+  /* Compact Header */
+  .header { padding: 10px; background: #000; text-align: center; font-weight: 800; color: #fff; font-size: 14px; border-bottom: 1px solid #222; letter-spacing: 0.5px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+  .header span { background: #00f2ff; color: #000; padding: 1px 5px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+  
+  /* Compact Tabs */
+  .tabs { display: flex; background: #0a0a0a; padding: 5px; gap: 5px; border-bottom: 1px solid #222; }
+  .tab { flex: 1; padding: 6px; cursor: pointer; border: 1px solid #333; background: #111; color: #888; font-weight: 600; border-radius: 4px; font-size: 11px; transition: 0.2s; text-align: center; }
+  .tab:hover { border-color: #444; color: #ccc; }
+  .tab.active { background: rgba(0, 242, 255, 0.08); color: #00f2ff; border: 1px solid #00f2ff; }
+  
+  /* Compact Content Area */
+  .content { padding: 10px; display: none; }
+  .content.active { display: block; } 
+  
+  /* Compact Groups */
+  .group { background: #0e0e0e; padding: 10px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #222; }
+  .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  label { font-size: 11px; color: #bbb; font-weight: 600; }
+  .val { color: #00f2ff; font-weight: bold; font-size: 11px; }
+  
+  /* Thinner Range Sliders */
+  input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 5px 0; }
+  input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 3px; background: #333; border-radius: 2px; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%; background: #00f2ff; margin-top: -4.5px; cursor: pointer; border: 2px solid #000; }
+  
+  input[type=checkbox] { accent-color: #00f2ff; width: 12px; height: 12px; cursor: pointer; }
+  
+  .pad-label { font-size: 9px; color: #555; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 6px; letter-spacing: 0.5px; text-align: center; }
+  
+  /* Compact D-Pad */
+  .d-pad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+  .btn-move { background: #151515; border: 1px solid #333; color: #888; padding: 6px 0; border-radius: 4px; cursor: pointer; transition: 0.2s; font-size: 12px; }
+  .btn-move:hover { background: #00f2ff; color: #000; border-color: #00f2ff; }
+  
+  .btn-reset { width: 100%; background: #151515; color: #ccc; border: 1px solid #333; padding: 6px; border-radius: 4px; margin-top: 8px; cursor: pointer; font-size: 10px; font-weight: 600; transition: 0.2s; }
+  .btn-reset:hover { border-color: #00f2ff; color: #00f2ff; }
+  
+  /* Pins */
+  .pin-item { display: flex; justify-content: space-between; background: #151515; padding: 8px 10px; border-radius: 4px; margin-bottom: 4px; font-size: 11px; border-left: 2px solid #00f2ff; align-items: center; }
+  .pin-del { color: #666; cursor: pointer; font-weight: bold; font-size: 10px; padding: 2px 5px; }
+  .pin-del:hover { color: #ff4444; background: rgba(255,0,0,0.1); border-radius: 3px; }
+  .btn-clear { width: 100%; background: rgba(255, 68, 68, 0.05); color: #ff4444; border: 1px solid #442222; padding: 8px; border-radius: 4px; cursor: pointer; margin-top: 8px; font-size: 10px; font-weight: bold; }
+  .btn-clear:hover { background: rgba(255, 68, 68, 0.1); border-color: #ff4444; }
+</style>
+</head>
+<body>
+  <div class="header">YT Master <span>v37.0</span></div>
+  <div class="tabs">
+    <button class="tab active" id="t-main">Controls</button>
+    <button class="tab" id="t-pin">Saved</button>
+  </div>
+  <div id="view-main" class="content active">
+    <div class="group">
+        <div class="row"><label>Player Width</label><span id="val-size" class="val">65%</span></div>
+        <input type="range" id="rng-size" min="50" max="100">
+        <div class="row" style="margin-top:2px"><label>Stretch Video</label><input type="checkbox" id="chk-stretch"></div>
+        <!-- Renamed to 'Sticky Sidebar' to imply manual scrolling without automation -->
+        <div class="row" style="margin-top:4px"><label style="color:#00f2ff">Sticky Sidebar (Scrollable)</label><input type="checkbox" id="chk-scroll"></div>
+    </div>
+    <div class="group">
+        <div class="row"><label>Vertical Position</label><span class="val" style="font-size:10px">↕</span></div>
+        <input type="range" id="rng-vertical" min="-300" max="300" value="0">
+    </div>
+    <div class="group">
+        <span class="pad-label">Position Fine Tune</span>
+        <div class="d-pad">
+            <button class="btn-move" id="btn-left">⬅</button>
+            <button class="btn-move" id="btn-up">⬆</button>
+            <button class="btn-move" id="btn-down">⬇</button>
+            <button class="btn-move" id="btn-right">➡</button>
+        </div>
+        <button class="btn-reset" id="btn-reset">Reset Position</button>
+    </div>
+  </div>
+  <div id="view-pin" class="content">
+    <div id="pin-list" style="max-height:220px; overflow-y:auto;"></div>
+    <button class="btn-clear" id="btn-clear">Clear All Pins</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

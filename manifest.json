@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Master - Compact Edition",
+  "version": "37.0",
+  "description": "Compact UI with Manual Sticky Sidebar.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ]
+}
